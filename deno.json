@@ -1,0 +1,19 @@
+{
+  "tasks": {
+    "dev": "deno run --allow-all --watch server.ts",
+    "build": "deno run --allow-all build.ts",
+    "dev:full": "deno task build && deno task dev",
+    "watch": "deno run --allow-all build.ts --watch"
+  },
+  "imports": {
+    "@hono/hono": "jsr:@hono/hono@^4.8.2",
+    "hono": "https://deno.land/x/hono@v3.12.11/mod.ts",
+    "hono/": "https://deno.land/x/hono@v3.12.11/",
+    "esbuild": "https://deno.land/x/esbuild@v0.25.5/mod.js",
+    "phaser": "npm:phaser@^3.70.0"
+  },
+  "compilerOptions": {
+    "lib": ["dom", "es2022"],
+    "strict": true
+  }
+}
