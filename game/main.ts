@@ -1,5 +1,6 @@
 // import Phaser from "https://esm.sh/phaser@3.70.0";
-import Phaser from "https://esm.sh/phaser@4.0.0-rc.4";
+// import Phaser from "https://esm.sh/phaser@4.0.0-rc.4";
+import Phaser from 'phaser';
 import { GameScene } from "./scenes/GameScene.ts";
 
 const config: Phaser.Types.Core.GameConfig = {

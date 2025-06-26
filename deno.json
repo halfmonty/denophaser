@@ -6,7 +6,8 @@
     "build:watch": "deno run --allow-all build.ts --watch"
   },
   "imports": {
-    "@hono/hono": "jsr:@hono/hono@^4.8.2"
+    "@hono/hono": "jsr:@hono/hono@^4.8.2",
+    "phaser": "npm:phaser@4.0.0-rc.4"
   },
   "compilerOptions": {
     "lib": ["es6", "dom", "dom.iterable", "scripthost", "deno.ns"],

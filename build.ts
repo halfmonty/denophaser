@@ -1,7 +1,9 @@
 import * as esbuild from 'https://deno.land/x/esbuild@v0.25.5/mod.js';
+import { denoPlugins } from "jsr:@luca/esbuild-deno-loader@^0.11.1";
 
 // Configuration for esbuild
 const buildConfig = {
+  plugins: [...denoPlugins()],
   entryPoints: ['game/main.ts'],
   bundle: true,
   outfile: 'static/js/game.js',
