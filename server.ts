@@ -1,4 +1,4 @@
-import { Hono } from 'hono'
+import { Hono } from '@hono/hono'
 import { serveStatic } from '@hono/hono/deno'
 import { upgradeWebSocket } from '@hono/hono/deno'
 
@@ -50,32 +50,32 @@ app.get('/static/*', async (c) => {
         'Cache-Control': 'no-cache'
       }
     })
-  } catch (error) {
+  } catch (_error) {
     return c.notFound()
   }
 })
 app.use('/favicon.ico', serveStatic({ path: './public/favicon.ico' }))
 
 // WebSocket endpoint for live reload
-app.get('/ws/reload', upgradeWebSocket((c) => {
+app.get('/ws/reload', upgradeWebSocket((_c) => {
   return {
-    onOpen: (event, ws) => {
+    onOpen: (_event, ws) => {
       console.log('🔄 Live reload client connected')
-      reloadConnections.add(ws)
+      reloadConnections.add(ws.raw!)
     },
-    onClose: (event, ws) => {
+    onClose: (_event, ws) => {
       console.log('🔄 Live reload client disconnected')
-      reloadConnections.delete(ws)
+      reloadConnections.delete(ws.raw!)
     },
     onError: (event, ws) => {
       console.log('🔄 Live reload WebSocket error:', event)
-      reloadConnections.delete(ws)
+      reloadConnections.delete(ws.raw!)
     }
   }
 }))
 
 // API endpoint to trigger reload (called by build script)
-app.post('/api/reload', async (c) => {
+app.post('/api/reload', (c) => {
   console.log('🔄 Triggering reload for', reloadConnections.size, 'clients')
   
   for (const ws of reloadConnections) {

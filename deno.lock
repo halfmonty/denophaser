@@ -2,8 +2,7 @@
   "version": "5",
   "specifiers": {
     "jsr:@hono/hono@^4.8.2": "4.8.2",
-    "npm:@types/node@*": "22.15.15",
-    "npm:phaser@^3.70.0": "3.90.0"
+    "npm:@types/node@*": "22.15.15"
   },
   "jsr": {
     "@hono/hono@4.8.2": {
@@ -15,15 +14,6 @@
       "integrity": "sha512-R5muMcZob3/Jjchn5LcO8jdKwSCbzqmPB6ruBxMcf9kbxtniZHP327s6C37iOfuw8mbKK3cAQa7sEl7afLrQ8A==",
       "dependencies": [
         "undici-types"
-      ]
-    },
-    "eventemitter3@5.0.1": {
-      "integrity": "sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA=="
-    },
-    "phaser@3.90.0": {
-      "integrity": "sha512-/cziz/5ZIn02uDkC9RzN8VF9x3Gs3XdFFf9nkiMEQT3p7hQlWuyjy4QWosU802qqno2YSLn2BfqwOKLv/sSVfQ==",
-      "dependencies": [
-        "eventemitter3"
       ]
     },
     "undici-types@6.21.0": {
@@ -79,8 +69,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@hono/hono@^4.8.2",
-      "npm:phaser@^3.70.0"
+      "jsr:@hono/hono@^4.8.2"
     ]
   }
 }

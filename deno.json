@@ -7,13 +7,13 @@
   },
   "imports": {
     "@hono/hono": "jsr:@hono/hono@^4.8.2",
-    "hono": "https://deno.land/x/hono@v3.12.11/mod.ts",
-    "hono/": "https://deno.land/x/hono@v3.12.11/",
-    "esbuild": "https://deno.land/x/esbuild@v0.25.5/mod.js",
-    "phaser": "npm:phaser@^3.70.0"
+    "esbuild": "https://deno.land/x/esbuild@v0.25.5/mod.js"
   },
   "compilerOptions": {
-    "lib": ["dom", "es2022"],
+    "lib": ["dom", "es2022", "deno.ns"],
     "strict": true
+  },
+  "fmt": {
+    "semiColons": true
   }
 }

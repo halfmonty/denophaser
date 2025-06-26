@@ -16,27 +16,28 @@ var GameScene = class extends Phaser.Scene {
     __publicField(this, "scoreText");
   }
   preload() {
-    this.load.image("ground", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==");
-    this.load.image("player", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==");
-    this.load.image("star", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==");
+    this.load.once("complete", () => {
+      this.add.graphics().fillStyle(65280).fillRect(0, 0, 32, 32).generateTexture("ground", 32, 32).destroy();
+      this.add.graphics().fillStyle(39423).fillRect(0, 0, 32, 48).generateTexture("player", 32, 48).destroy();
+      this.add.graphics().fillStyle(16776960).beginPath().moveTo(8, 0).lineTo(10, 6).lineTo(16, 6).lineTo(12, 10).lineTo(14, 16).lineTo(8, 12).lineTo(2, 16).lineTo(4, 10).lineTo(0, 6).lineTo(6, 6).closePath().fillPath().generateTexture("star", 16, 16).destroy();
+    });
   }
   create() {
+    this.time.delayedCall(0, () => {
+      this.createGameObjects();
+    });
+  }
+  createGameObjects() {
     this.platforms = this.physics.add.staticGroup();
     const ground = this.platforms.create(400, 568, "ground");
-    ground.setScale(800, 64).refreshBody();
-    ground.setTint(65280);
+    ground.setScale(25, 2).refreshBody();
     const platform1 = this.platforms.create(600, 400, "ground");
-    platform1.setScale(200, 32).refreshBody();
-    platform1.setTint(65280);
+    platform1.setScale(6, 1).refreshBody();
     const platform2 = this.platforms.create(50, 250, "ground");
-    platform2.setScale(200, 32).refreshBody();
-    platform2.setTint(65280);
+    platform2.setScale(6, 1).refreshBody();
     const platform3 = this.platforms.create(750, 220, "ground");
-    platform3.setScale(200, 32).refreshBody();
-    platform3.setTint(65280);
+    platform3.setScale(6, 1).refreshBody();
     this.player = this.physics.add.sprite(100, 450, "player");
-    this.player.setScale(32, 48);
-    this.player.setTint(39423);
     this.player.setBounce(0.2);
     this.player.setCollideWorldBounds(true);
     this.physics.add.collider(this.player, this.platforms);
@@ -47,8 +48,6 @@ var GameScene = class extends Phaser.Scene {
     });
     stars.children.entries.forEach((star) => {
       const starSprite = star;
-      starSprite.setScale(16, 16);
-      starSprite.setTint(16776960);
       starSprite.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
     });
     this.physics.add.collider(stars, this.platforms);
@@ -56,7 +55,7 @@ var GameScene = class extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
     this.scoreText = this.add.text(16, 16, "Score: 0", {
       fontSize: "32px",
-      color: "#000"
+      color: "#ffffff"
     });
     this.add.text(400, 100, "Use Arrow Keys to Move\nCollect Yellow Stars!", {
       fontSize: "24px",
@@ -65,10 +64,11 @@ var GameScene = class extends Phaser.Scene {
     }).setOrigin(0.5);
   }
   update() {
+    if (!this.player || !this.cursors) return;
     if (this.cursors.left.isDown) {
-      this.player.setVelocityX(-160);
+      this.player.setVelocityX(-200);
     } else if (this.cursors.right.isDown) {
-      this.player.setVelocityX(160);
+      this.player.setVelocityX(200);
     } else {
       this.player.setVelocityX(0);
     }
@@ -81,8 +81,10 @@ var GameScene = class extends Phaser.Scene {
     starSprite.disableBody(true, true);
     this.score += 10;
     this.scoreText.setText("Score: " + this.score);
-    const stars = starSprite.body.gameObject.parentContainer || this.physics.world.bodies.entries;
-    if (this.score % 120 === 0) {
+    const activeStars = starSprite.body.world.bodies.entries.filter(
+      (body) => body.gameObject && body.gameObject.texture?.key === "star" && body.gameObject.active
+    );
+    if (activeStars.length === 0) {
       this.createNewStars();
     }
   }
@@ -94,8 +96,6 @@ var GameScene = class extends Phaser.Scene {
     });
     stars.children.entries.forEach((star) => {
       const starSprite = star;
-      starSprite.setScale(16, 16);
-      starSprite.setTint(16776960);
       starSprite.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
     });
     this.physics.add.collider(stars, this.platforms);
@@ -113,7 +113,7 @@ var config = {
   physics: {
     default: "arcade",
     arcade: {
-      gravity: { x: 0, y: 300 },
+      gravity: { x: 0, y: 250 },
       debug: false
     }
   },
