@@ -1,10 +1,10 @@
-import * as esbuild from 'esbuild'
+import * as esbuild from 'https://deno.land/x/esbuild@v0.25.5/mod.js';
 
 // Configuration for esbuild
 const buildConfig = {
-  entryPoints: ['src/game/main.ts'],
+  entryPoints: ['game/main.ts'],
   bundle: true,
-  outfile: 'public/game.js',
+  outfile: 'static/js/game.js',
   format: 'esm' as const,
   target: 'es2020',
   sourcemap: true,
@@ -31,14 +31,14 @@ async function triggerReload() {
     const response = await fetch('http://localhost:3000/api/reload', {
       method: 'POST'
     })
-    
+
     if (response.ok) {
       const data = await response.json()
-      console.log(`🔄 Reload triggered for ${data.clients} clients`)
+      console.log(`🔁 Reload triggered for ${data.clients} clients`)
     }
   } catch (error) {
     // Server might not be running yet, ignore the error
-    console.log('🔄 Could not trigger reload (server not ready)')
+    console.log('🤷‍♂️ Could not trigger reload (server not ready)')
   }
 }
 
@@ -46,16 +46,16 @@ async function triggerReload() {
 async function buildGame() {
   try {
     console.log('🔨 Building game...')
-    
+
     await esbuild.build(buildConfig)
-    
+
     console.log('✅ Build complete!')
-    
+
     // Trigger reload if this is a rebuild (not initial build)
     if (Deno.args.includes('--reload')) {
       await triggerReload()
     }
-    
+
   } catch (error) {
     console.error('❌ Build failed:', error)
     Deno.exit(1)
@@ -65,24 +65,24 @@ async function buildGame() {
 // Watch mode
 async function watchMode() {
   console.log('👀 Starting watch mode...')
-  
+
   // Initial build
   await buildGame()
-  
+
   // Watch for file changes
-  const watcher = Deno.watchFs(['src/'], { recursive: true })
-  
+  const watcher = Deno.watchFs(['game/'], { recursive: true })
+
   let buildTimeout: number | null = null
-  
+
   for await (const event of watcher) {
     if (event.kind === 'modify' && event.paths.some(path => path.endsWith('.ts'))) {
       console.log('📝 File changed:', event.paths)
-      
+
       // Debounce builds
       if (buildTimeout) {
         clearTimeout(buildTimeout)
       }
-      
+
       buildTimeout = setTimeout(async () => {
         console.log('🔨 Rebuilding...')
         await esbuild.build(buildConfig)
@@ -96,13 +96,13 @@ async function watchMode() {
 // Main execution
 if (import.meta.main) {
   const args = Deno.args
-  
+
   if (args.includes('--watch')) {
     await watchMode()
   } else {
     await buildGame()
   }
-  
+
   // Clean up esbuild
   await esbuild.stop()
 }

@@ -1,3 +1,5 @@
+import Phaser from "https://esm.sh/phaser@4.0.0-rc.4";
+
 export class GameScene extends Phaser.Scene {
     private player!: Phaser.Physics.Arcade.Sprite
     private platforms!: Phaser.Physics.Arcade.StaticGroup
@@ -11,8 +13,8 @@ export class GameScene extends Phaser.Scene {
 
     preload() {
         // Create simple colored rectangles as textures dynamically
-       // this.load.image('ground', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==')
-        
+        // this.load.image('ground', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==')
+
         // Create textures programmatically instead of loading data URIs
         this.load.once('complete', () => {
             // Create ground texture
@@ -21,14 +23,14 @@ export class GameScene extends Phaser.Scene {
                 .fillRect(0, 0, 32, 32)
                 .generateTexture('ground', 32, 32)
                 .destroy()
-            
+
             // Create player texture
             this.add.graphics()
                 .fillStyle(0x0099ff)
                 .fillRect(0, 0, 32, 48)
                 .generateTexture('player', 32, 48)
                 .destroy()
-            
+
             // Create star texture
             this.add.graphics()
                 .fillStyle(0xffff00)
@@ -60,18 +62,18 @@ export class GameScene extends Phaser.Scene {
     private createGameObjects() {
         // Create platforms
         this.platforms = this.physics.add.staticGroup()
-        
+
         // Ground
         const ground = this.platforms.create(400, 568, 'ground')
         ground.setScale(25, 2).refreshBody()
-        
+
         // Platforms
         const platform1 = this.platforms.create(600, 400, 'ground')
         platform1.setScale(6, 1).refreshBody()
-        
+
         const platform2 = this.platforms.create(50, 250, 'ground')
         platform2.setScale(6, 1).refreshBody()
-        
+
         const platform3 = this.platforms.create(750, 220, 'ground')
         platform3.setScale(6, 1).refreshBody()
 
@@ -90,6 +92,7 @@ export class GameScene extends Phaser.Scene {
             setXY: { x: 12, y: 0, stepX: 70 }
         })
 
+        console.log(stars);
         stars.children.entries.forEach((star) => {
             const starSprite = star as Phaser.Physics.Arcade.Sprite
             starSprite.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8))
@@ -117,7 +120,7 @@ export class GameScene extends Phaser.Scene {
         }).setOrigin(0.5)
     }
 
-    update() {
+    override update() {
         if (!this.player || !this.cursors) return
 
         if (this.cursors.left.isDown) {
@@ -141,7 +144,7 @@ export class GameScene extends Phaser.Scene {
         this.scoreText.setText('Score: ' + this.score)
 
         // Check if all stars are collected
-        const activeStars = starSprite.body!.world.bodies.entries.filter(body => 
+        const activeStars = starSprite.body!.world.bodies.entries.filter(body =>
             body.gameObject && body.gameObject.texture?.key === 'star' && body.gameObject.active
         )
 
@@ -157,10 +160,12 @@ export class GameScene extends Phaser.Scene {
             setXY: { x: 12, y: 0, stepX: 70 }
         })
 
-        stars.children.entries.forEach((star) => {
-            const starSprite = star as Phaser.Physics.Arcade.Sprite
-            starSprite.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8))
-        })
+
+        console.log(stars);
+        // stars.children.entries.forEach((star) => {
+        //     const starSprite = star as Phaser.Physics.Arcade.Sprite
+        //     starSprite.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8))
+        // })
 
         this.physics.add.collider(stars, this.platforms)
         this.physics.add.overlap(this.player, stars, this.collectStar, undefined, this)

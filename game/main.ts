@@ -1,4 +1,5 @@
-import Phaser from "https://esm.sh/phaser@3.70.0";
+// import Phaser from "https://esm.sh/phaser@3.70.0";
+import Phaser from "https://esm.sh/phaser@4.0.0-rc.4";
 import { GameScene } from "./scenes/GameScene.ts";
 
 const config: Phaser.Types.Core.GameConfig = {
@@ -8,7 +9,7 @@ const config: Phaser.Types.Core.GameConfig = {
   parent: "game-container",
   backgroundColor: "#2c3e50",
   physics: {
-    default: "arcade",
+    default: 'arcade',
     arcade: {
       gravity: { x: 0, y: 250 },
       debug: false,

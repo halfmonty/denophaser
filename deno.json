@@ -1,19 +1,22 @@
 {
   "tasks": {
-    "dev": "deno run --allow-all --watch server.ts",
+    "dev": { "dependencies": ["build:watch", "runserver"] },
+    "runserver": "deno run --allow-all --watch server/server.ts",
     "build": "deno run --allow-all build.ts",
-    "dev:full": "deno task build && deno task dev",
-    "watch": "deno run --allow-all build.ts --watch"
+    "build:watch": "deno run --allow-all build.ts --watch"
   },
   "imports": {
-    "@hono/hono": "jsr:@hono/hono@^4.8.2",
-    "esbuild": "https://deno.land/x/esbuild@v0.25.5/mod.js"
+    "@hono/hono": "jsr:@hono/hono@^4.8.2"
   },
   "compilerOptions": {
-    "lib": ["dom", "es2022", "deno.ns"],
+    "lib": ["es6", "dom", "dom.iterable", "scripthost", "deno.ns"],
+    "types": ["phaser"],
     "strict": true
   },
   "fmt": {
-    "semiColons": true
+    "semiColons": true,
+    "bracePosition": "sameLine",
+    "spaceAround": true,
+    "singleQuote": true
   }
 }
