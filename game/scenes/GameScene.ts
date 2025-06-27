@@ -61,7 +61,7 @@ export class GameScene extends Phaser.Scene {
 
         // Ground
         const ground = this.platforms.create(400, 568, 'ground');
-        ground.setScale(25, 2).refreshBody();
+        ground.setScale(40, 2).refreshBody();
 
         // Platforms
         const platform1 = this.platforms.create(600, 400, 'ground');
@@ -88,7 +88,6 @@ export class GameScene extends Phaser.Scene {
             setXY: { x: 12, y: 0, stepX: 70 },
         });
 
-        console.log(this.stars);
         this.stars.children.forEach((star) => {
             const starSprite = star as Phaser.Physics.Arcade.Sprite;
             starSprite.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
