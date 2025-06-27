@@ -16,8 +16,7 @@
     "jsr:@std/path@^1.0.2": "1.0.2",
     "jsr:@std/path@^1.0.6": "1.1.0",
     "npm:@types/node@*": "22.15.15",
-    "npm:esbuild@0.25": "0.25.5",
-    "npm:phaser@4.0.0-rc.4": "4.0.0-rc.4"
+    "npm:esbuild@0.25": "0.25.5"
   },
   "jsr": {
     "@duesabati/esbuild-deno-plugin@0.0.1": {
@@ -245,15 +244,6 @@
       "scripts": true,
       "bin": true
     },
-    "eventemitter3@5.0.1": {
-      "integrity": "sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA=="
-    },
-    "phaser@4.0.0-rc.4": {
-      "integrity": "sha512-qh1uSWJ0Y89Xz7zP7vS971SIPUkaya1/oYnpE5OSzTG3KMzVZYwYUA1ONkSTx9nE6uvjNoZ0Aq+gPjRVedDtBw==",
-      "dependencies": [
-        "eventemitter3"
-      ]
-    },
     "undici-types@6.21.0": {
       "integrity": "sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ=="
     }
@@ -311,8 +301,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@hono/hono@^4.8.2",
-      "npm:phaser@4.0.0-rc.4"
+      "jsr:@hono/hono@^4.8.2"
     ]
   }
 }
