@@ -1,23 +1,24 @@
 {
-  "tasks": {
-    "dev": { "dependencies": ["build:watch", "runserver"] },
-    "runserver": "deno run --allow-all --watch server/server.ts",
-    "build": "deno run --allow-all build.ts",
-    "build:watch": "deno run --allow-all build.ts --watch"
-  },
-  "imports": {
-    "@hono/hono": "jsr:@hono/hono@^4.8.2"
-  },
-  "compilerOptions": {
-    "lib": ["es6", "dom", "dom.iterable", "scripthost", "deno.ns"],
-    "types": ["phaser"],
-    "strict": true
-  },
-  "fmt": {
-    "semiColons": true,
-    "bracePosition": "sameLine",
-    "spaceAround": true,
-    "singleQuote": true,
-    "useTabs": true
-  }
+	"tasks": {
+		"dev": { "dependencies": ["build:watch", "runserver"] },
+		"runserver": "deno run --allow-all --watch server/server.ts",
+		"build": "deno run --allow-all build.ts",
+		"build:watch": "deno run --allow-all build.ts --watch"
+	},
+	"imports": {
+		"@hono/hono": "jsr:@hono/hono@^4.8.2"
+	},
+	"compilerOptions": {
+		"lib": ["es6", "dom", "dom.iterable", "scripthost", "deno.ns"],
+		"types": ["phaser"],
+		"strict": true
+	},
+	"fmt": {
+		"semiColons": true,
+		"bracePosition": "sameLine",
+		"spaceAround": true,
+		"singleQuote": true,
+		"useTabs": true,
+		"spaceSurroundingProperties": true
+	}
 }

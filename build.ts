@@ -1,7 +1,7 @@
 import * as esbuild from 'https://deno.land/x/esbuild@v0.25.5/mod.js';
 
 const buildConfig = {
-	entryPoints: [ 'game/main.ts' ],
+	entryPoints: ['game/main.ts'],
 	bundle: true,
 	outfile: 'static/js/game.js',
 	format: 'esm' as const,
@@ -27,78 +27,78 @@ const buildConfig = {
 // Function to trigger reload via server API
 async function triggerReload() {
 	try {
-		const response = await fetch( 'http://localhost:3000/api/reload', {
+		const response = await fetch('http://localhost:3000/api/reload', {
 			method: 'POST',
-		} );
+		});
 
-		if ( response.ok ) {
+		if (response.ok) {
 			const data = await response.json();
-			console.log( `🔁 Reload triggered for ${data.clients} clients` );
+			console.log(`🔁 Reload triggered for ${data.clients} clients`);
 		}
-	} catch ( error ) {
+	} catch (error) {
 		// Server might not be running yet, ignore the error
-		console.log( '🤷‍♂️ Could not trigger reload (server not ready)' );
+		console.log('🤷‍♂️ Could not trigger reload (server not ready)');
 	}
 }
 
 // Build function
 async function buildGame() {
 	try {
-		console.log( '🔨 Building game...' );
+		console.log('🔨 Building game...');
 
-		await esbuild.build( buildConfig );
+		await esbuild.build(buildConfig);
 
-		console.log( '✅ Build complete!' );
+		console.log('✅ Build complete!');
 
 		// Trigger reload if this is a rebuild (not initial build)
-		if ( Deno.args.includes( '--reload' ) ) {
+		if (Deno.args.includes('--reload')) {
 			await triggerReload();
 		}
-	} catch ( error ) {
-		console.error( '❌ Build failed:', error );
-		Deno.exit( 1 );
+	} catch (error) {
+		console.error('❌ Build failed:', error);
+		Deno.exit(1);
 	}
 }
 
 // Watch mode
 async function watchMode() {
-	console.log( '👀 Starting watch mode...' );
+	console.log('👀 Starting watch mode...');
 
 	// Initial build
 	await buildGame();
 
 	// Watch for file changes
-	const watcher = Deno.watchFs( [ 'game/' ], { recursive: true } );
+	const watcher = Deno.watchFs(['game/'], { recursive: true });
 
 	let buildTimeout: number | null = null;
 
-	for await ( const event of watcher ) {
+	for await (const event of watcher) {
 		if (
 			event.kind === 'modify' &&
-			event.paths.some( ( path ) => path.endsWith( '.ts' ) )
+			event.paths.some((path) => path.endsWith('.ts'))
 		) {
-			console.log( '📝 File changed:', event.paths );
+			console.log('📝 File changed:', event.paths);
 
 			// Debounce builds
-			if ( buildTimeout ) {
-				clearTimeout( buildTimeout );
+			if (buildTimeout) {
+				clearTimeout(buildTimeout);
 			}
 
-			buildTimeout = setTimeout( async () => {
-				console.log( '🔨 Rebuilding...' );
-				await esbuild.build( buildConfig );
-				console.log( '✅ Rebuild complete!' );
+			buildTimeout = setTimeout(async () => {
+				console.log('🔨 Rebuilding...');
+				await esbuild.build(buildConfig);
+				console.log('✅ Rebuild complete!');
 				await triggerReload();
-			}, 100 );
+			}, 100);
 		}
 	}
 }
 
 // Main execution
-if ( import.meta.main ) {
+if (import.meta.main) {
 	const args = Deno.args;
 
-	if ( args.includes( '--watch' ) ) {
+	if (args.includes('--watch')) {
 		await watchMode();
 	} else {
 		await buildGame();

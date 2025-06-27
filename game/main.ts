@@ -1,6 +1,6 @@
 import Phaser from 'https://esm.sh/phaser@4.0.0-rc.4';
-// import Phaser from 'phaser';
 import { GameScene } from './scenes/GameScene.ts';
+// export { StarTopologyChat } from './rtc/app.ts';
 
 const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.AUTO,
@@ -15,11 +15,11 @@ const config: Phaser.Types.Core.GameConfig = {
 			debug: false,
 		},
 	},
-	scene: [ GameScene ],
+	scene: [GameScene],
 };
 
 // Start the game
-const game = new Phaser.Game( config ); // Make game globally available for debugging
-( window as any ).game = game;
+const game = new Phaser.Game(config); // Make game globally available for debugging
+(window as any).game = game;
 
-console.log( '🎮 Phaser game initialized!' );
+console.log('🎮 Phaser game initialized!');
