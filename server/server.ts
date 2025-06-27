@@ -22,6 +22,7 @@ if ( !isDenoDeploy ) {
 }
 
 // Serve the main HTML file
+app.get( '/favicon.ico', serveStatic( { path: './static/favicon.ico' } ) );
 app.use( '/*', serveStatic( { root: './static/' } ) );
 app.get( '/', serveStatic( { path: './static/index.html' } ) );
 app.get( '*', serveStatic( { path: './static/404.html' } ) );

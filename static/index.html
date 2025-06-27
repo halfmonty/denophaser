@@ -107,7 +107,10 @@
     </script>
 
     <!-- Load the game -->
-    <script type="module" src="/js/game.js"></script>
+    <script type="module">
+        import { StartGame } from './js/main.js';
+        StartGame();
+    </script>
 </body>
 
 </html>
